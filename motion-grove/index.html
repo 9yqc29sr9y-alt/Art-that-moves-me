@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motion Grove</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap');
+    :root{--ink:#183128;--muted:#6e7d74;--paper:#f5f0e6;--card:#fffdf8;--green:#26734d;--lime:#bad96b;--peach:#f4a870;--line:#dfe2d6;--shadow:0 18px 50px rgba(43,69,48,.10)}
+    *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 'DM Sans',sans-serif;min-height:100vh}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 12% 8%,rgba(186,217,107,.28),transparent 28%),radial-gradient(circle at 90% 90%,rgba(244,168,112,.18),transparent 30%)}
+    button,input{font:inherit}.shell{position:relative;max-width:1180px;margin:auto;padding:28px 24px 56px}
+    nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:38px}.brand{display:flex;gap:11px;align-items:center;font:800 19px Manrope}.mark{width:34px;height:34px;background:var(--green);border-radius:50% 50% 46% 54%;display:grid;place-items:center;color:white;transform:rotate(-8deg)}
+    .date{color:var(--muted);font-weight:600}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;margin-bottom:22px}.panel{background:rgba(255,253,248,.9);border:1px solid rgba(223,226,214,.9);border-radius:28px;box-shadow:var(--shadow)}
+    .welcome{padding:36px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:700;color:var(--green)}h1{font:800 clamp(34px,5vw,58px)/1.05 Manrope;margin:9px 0 15px;letter-spacing:-.045em;max-width:650px}.sub{color:var(--muted);font-size:17px;max-width:550px}
+    .stats{display:flex;gap:34px;margin-top:34px}.stat b{display:block;font:800 26px Manrope}.stat span{color:var(--muted);font-size:13px}
+    .tree-card{padding:22px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}.tree-top{display:flex;justify-content:space-between;align-items:start}.pill{border-radius:99px;background:#eaf2dc;color:#48622d;padding:7px 11px;font-size:12px;font-weight:700}.tree{height:240px;display:grid;place-items:center}.bonsai{width:250px;height:230px;overflow:visible}.bonsai .limb{fill:none;stroke:#75513b;stroke-width:13;stroke-linecap:round;stroke-linejoin:round}.bonsai .limb-light{fill:none;stroke:#9b7152;stroke-width:3;stroke-linecap:round;opacity:.8}.bonsai .pad{fill:#4e8a55;stroke:#397147;stroke-width:2;transition:.45s transform,.45s opacity;transform-box:fill-box;transform-origin:center}.bonsai .pad.alt{fill:#669b5d}.bonsai .pot{fill:#b86f52}.bonsai .pot-rim{fill:#d58c6d}.bonsai .soil{fill:#564536}.flower{opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;transition:.4s cubic-bezier(.2,.9,.25,1.5)}.flower.show{opacity:1;transform:scale(1)}.flower petal{fill:#f5b8c2}.tree.resting .pad{opacity:.72;transform:scale(.94)}
+    .tree-note{text-align:center;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px}.tasks,.rewards{padding:27px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}h2{font:800 22px Manrope;margin:0;letter-spacing:-.025em}.small{font-size:13px;color:var(--muted)}
+    .art-card{padding:22px;overflow:hidden}.art-frame{position:relative;margin:14px auto 10px;width:min(100%,330px);aspect-ratio:4/3;border:9px solid #e3c99c;outline:1px solid #b99e72;background:#d8d2c2;box-shadow:0 8px 22px rgba(45,42,31,.18)}.art-image{position:absolute;inset:0;background-size:cover;background-position:center}.mosaic{position:absolute;inset:0;display:grid}.tile{background:#e9e3d6;border:1px solid rgba(126,111,87,.16);transition:opacity .55s,transform .55s;transition-delay:calc(var(--delay)*18ms)}.tile.revealed{opacity:0;transform:scale(.72);pointer-events:none}.art-progress{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:var(--muted)}.clue{margin-top:10px;padding:10px 12px;border-radius:12px;background:#f1eee5;font-size:12px;color:#566158}.clue.locked{filter:blur(4px);user-select:none;opacity:.55}.art-credit{display:none;margin-top:10px;font-size:12px;color:var(--muted)}.art-credit.show{display:block}.next-art{width:100%;border:0;background:var(--peach);color:#522b16;border-radius:11px;padding:9px;font-weight:700;margin-top:10px;cursor:pointer}
+    .task-list{display:grid;gap:10px}.task{display:flex;align-items:center;gap:13px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fff;transition:.2s}.task:hover{transform:translateY(-1px);border-color:#b9c6ad}.check{width:27px;height:27px;border:2px solid #b9c5b9;border-radius:9px;background:white;cursor:pointer;color:white;display:grid;place-items:center;font-weight:800}.task.done{opacity:.58}.task.done .check{background:var(--green);border-color:var(--green)}.task.done .task-title{text-decoration:line-through}.task-copy{flex:1}.task-title{font-weight:700}.xp{color:var(--green);font-size:12px;font-weight:700}.tag{font-size:11px;padding:5px 8px;border-radius:8px;background:#f4eee2;color:#876e51}
+    .task-actions{display:flex;gap:7px;justify-content:flex-end;margin:-7px 0 13px}.text-btn{border:0;background:transparent;color:var(--muted);padding:5px 7px;font-size:12px;font-weight:700;cursor:pointer}.text-btn:hover{color:var(--ink)}.text-btn:disabled{opacity:.35;cursor:not-allowed}.text-btn.danger:hover{color:#a34336}.quick-wrap{margin-top:16px}.quick-label{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px}.quick-list{display:flex;gap:7px;flex-wrap:wrap}.quick{border:1px solid #cfd8c7;background:#f7faef;color:#385a42;border-radius:99px;padding:7px 11px;font-size:12px;font-weight:700;cursor:pointer;transition:.18s}.quick:hover{background:#e9f2db;border-color:#9eb18f;transform:translateY(-1px)}.quick:active{transform:translateY(0)}.add-row{display:flex;gap:8px;margin-top:14px}.add-row input{min-width:0;flex:1;border:1px solid var(--line);border-radius:13px;padding:11px 13px;background:white;color:var(--ink);outline:none}.add-row input:focus{border-color:var(--green)}button.primary{border:0;background:var(--ink);color:white;border-radius:13px;padding:11px 16px;font-weight:700;cursor:pointer}
+    .reward{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:11px}.reward-row{display:flex;justify-content:space-between;gap:12px}.reward-name{font-weight:700}.reward-xp{font-size:12px;color:var(--muted)}.bar{height:8px;background:#edf0e8;border-radius:9px;margin-top:12px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--green),var(--lime));border-radius:inherit}.unlock{width:100%;border:0;background:#e7edda;color:#6c7756;border-radius:10px;padding:8px;margin-top:10px;font-weight:700;cursor:pointer}.unlock.ready{background:var(--peach);color:#522b16}.quote{margin-top:18px;padding:16px;border-radius:17px;background:var(--ink);color:#eef3e9}.quote small{color:#b9c9be}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,100px);background:#183128;color:white;padding:12px 18px;border-radius:99px;box-shadow:var(--shadow);transition:.3s;z-index:4}.toast.show{transform:translate(-50%,0)}
+    @media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.tree-card{min-height:330px}.shell{padding:20px 15px 40px}.welcome{padding:27px}.date{display:none}.stats{gap:22px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <nav><div class="brand"><span class="mark">↟</span> Motion Grove</div><div class="date" id="today"></div></nav>
+    <section class="hero">
+      <div class="panel welcome">
+        <div class="eyebrow">Your daily movement ritual</div>
+        <h1>Move your body.<br>Grow your world.</h1>
+        <div class="sub">Small actions feed your grove. Complete today’s movement, earn XP, and turn consistency into things you genuinely enjoy.</div>
+        <div class="stats"><div class="stat"><b id="xpTotal">0</b><span>total XP</span></div><div class="stat"><b id="streak">0 days</b><span>current streak</span></div><div class="stat"><b id="doneCount">0 / 0</b><span>done today</span></div></div>
+      </div>
+      <div class="panel art-card">
+        <div class="tree-top"><div><div class="eyebrow">Mystery masterpiece</div><h2 id="artTitle">Hidden for now</h2></div><span class="pill" id="artPercent">0% revealed</span></div>
+        <div class="art-frame"><div class="art-image" id="artImage"></div><div class="mosaic" id="mosaic"></div></div>
+        <div class="art-progress"><span id="tileCount">0 of 40 tiles</span><span id="galleryCount">Gallery · 0</span></div>
+        <div class="clue" id="artClue">Reveal 20% to unlock your first clue.</div>
+        <div class="art-credit" id="artCredit"></div><div id="nextArt"></div>
+      </div>
+    </section>
+    <section class="grid">
+      <div class="panel tasks">
+        <div class="section-head"><div><div class="eyebrow">Today</div><h2>Move list</h2></div><span class="small" id="percent">0% complete</span></div>
+        <div class="task-actions"><button class="text-btn" id="undoBtn">↶ Undo last</button><button class="text-btn danger" id="resetTodayBtn">Reset today</button></div>
+        <div class="task-list" id="taskList"></div>
+        <div class="quick-wrap"><div class="quick-label">Quick add</div><div class="quick-list">
+          <button class="quick" data-name="10 minute walk" data-xp="15">＋ 10 min walk</button>
+          <button class="quick" data-name="60 second wall sit" data-xp="20">＋ Wall sit</button>
+          <button class="quick" data-name="5 minute stretch" data-xp="10">＋ Stretch</button>
+          <button class="quick" data-name="10 squats" data-xp="15">＋ 10 squats</button>
+        </div></div>
+        <form class="add-row" id="taskForm"><input id="taskInput" maxlength="40" placeholder="Add a movement…" required><input id="xpInput" type="number" min="5" max="100" step="5" value="15" style="max-width:75px" aria-label="XP"><button class="primary">Add</button></form>
+      </div>
+      <aside class="panel rewards">
+        <div class="section-head"><div><div class="eyebrow">Motivation shelf</div><h2>Rewards</h2></div></div>
+        <div id="rewardList"></div>
+        <form class="add-row" id="rewardForm"><input id="rewardInput" maxlength="35" placeholder="New reward…" required><input id="costInput" type="number" min="25" step="25" value="100" style="max-width:78px" aria-label="XP cost"><button class="primary">+</button></form>
+        <div class="quote">“You do not have to feel motivated. You only have to begin.”<br><small>Today’s gentle reminder</small></div>
+      </aside>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script>
+    const KEY='motion-grove-v1', day=new Date().toISOString().slice(0,10);
+    const defaults={xp:0,lastDay:'',streak:0,tasks:[{id:1,name:'10 minute walk',xp:15,done:false},{id:2,name:'Stretch for 5 minutes',xp:10,done:false},{id:3,name:'One set of anything',xp:20,done:false}],rewards:[{id:1,name:'Fancy coffee',cost:100},{id:2,name:'A guilt-free movie night',cost:250}]};
+    let state=JSON.parse(localStorage.getItem(KEY)||'null')||defaults;
+    if(!state.art)state.art={level:0,revealed:Math.min(40,state.tasks.filter(t=>t.done).length*3),gallery:[]};
+    if(!state.history)state.history=[];
+    const artworks=[
+      {title:'Wheat Field with Cypresses',artist:'Vincent van Gogh',year:'1889',image:'https://images.metmuseum.org/CRDImages/ep/web-large/DP-42549-001.jpg',url:'https://www.metmuseum.org/art/collection/search/436535',clues:['Painted in the late nineteenth century.','Its artist was Dutch, though this landscape was painted in southern France.','Look for the dark cypress rising like a flame against the restless sky.','Van Gogh considered this sun-filled landscape one of his best summer paintings.']},
+      {title:'Study of a Young Woman',artist:'Johannes Vermeer',year:'ca. 1665–67',image:'https://images.metmuseum.org/CRDImages/ep/web-large/DP353256.jpg',url:'https://www.metmuseum.org/art/collection/search/437879',clues:['Created during the Dutch Golden Age.','This is a character study, not a commissioned portrait.','Notice the soft light and the unusually direct gaze.','The sitter may have been a studio model; her identity remains unknown.']}
+    ];
+    if(state.activeDay!==day){state.tasks.forEach(t=>t.done=false);state.activeDay=day}
+    const $=s=>document.querySelector(s), save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+    function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800)}
+    function render(){
+      $('#today').textContent=new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric'}).format(new Date());
+      const done=state.tasks.filter(t=>t.done).length, pct=state.tasks.length?Math.round(done/state.tasks.length*100):0;
+      $('#xpTotal').textContent=state.xp; $('#streak').textContent=state.streak+' day'+(state.streak===1?'':'s'); $('#doneCount').textContent=done+' / '+state.tasks.length; $('#percent').textContent=pct+'% complete'; $('#undoBtn').disabled=!state.history.some(id=>state.tasks.some(t=>t.id==id&&t.done));
+      $('#taskList').innerHTML=state.tasks.map(t=>`<div class="task ${t.done?'done':''}"><button class="check" data-id="${t.id}" aria-label="Complete ${t.name}">${t.done?'✓':''}</button><div class="task-copy"><div class="task-title">${esc(t.name)}</div><div class="xp">+${t.xp} XP</div></div><span class="tag">movement</span></div>`).join('');
+      $('#rewardList').innerHTML=state.rewards.map(r=>{const p=Math.min(100,state.xp/r.cost*100),ready=state.xp>=r.cost;return `<div class="reward"><div class="reward-row"><div class="reward-name">${esc(r.name)}</div><div class="reward-xp">${state.xp} / ${r.cost} XP</div></div><div class="bar"><div class="fill" style="width:${p}%"></div></div>${ready?`<button class="unlock ready" data-reward="${r.id}">Claim reward</button>`:''}</div>`}).join('');
+      const art=artworks[state.art.level%artworks.length], total=40+state.art.level*8, revealed=Math.min(total,state.art.revealed), artPct=Math.round(revealed/total*100), rows=Math.ceil(total/8);
+      $('#artImage').style.backgroundImage=`url("${art.image}")`; $('#mosaic').style.gridTemplateColumns='repeat(8,1fr)'; $('#mosaic').style.gridTemplateRows=`repeat(${rows},1fr)`; $('#mosaic').innerHTML=Array.from({length:total},(_,i)=>`<span class="tile ${((i*17)%total)<revealed?'revealed':''}" style="--delay:${i%8}"></span>`).join('');
+      $('#artPercent').textContent=artPct+'% revealed'; $('#tileCount').textContent=`${revealed} of ${total} tiles`; $('#galleryCount').textContent=`Gallery · ${state.art.gallery.length}`; $('#artTitle').textContent=artPct===100?art.title:'Hidden for now';
+      const stages=[20,40,60,80], unlocked=stages.filter(x=>artPct>=x).length; $('#artClue').textContent=unlocked?art.clues[unlocked-1]:'Reveal 20% to unlock your first clue.'; $('#artCredit').classList.toggle('show',artPct===100); $('#artCredit').innerHTML=artPct===100?`${art.artist} · ${art.year} · Public Domain, <a href="${art.url}" target="_blank" rel="noreferrer">The Met</a>`:''; $('#nextArt').innerHTML=artPct===100?'<button class="next-art">Begin the next mystery</button>':''; save();
+    }
+    function esc(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+    function reverseTask(t){if(!t||!t.done)return;state.xp=Math.max(0,state.xp-t.xp);state.art.revealed=Math.max(0,state.art.revealed-(t.tilesAwarded||Math.max(2,Math.round(t.xp/5))));t.tilesAwarded=0;t.done=false;state.history=state.history.filter(id=>id!=t.id)}
+    $('#taskList').onclick=e=>{const b=e.target.closest('[data-id]');if(!b)return;const t=state.tasks.find(x=>x.id==b.dataset.id);if(t.done){reverseTask(t);toast('Completion undone')}else{t.done=true;state.xp+=t.xp;const tiles=Math.max(2,Math.round(t.xp/5));t.tilesAwarded=tiles;state.art.revealed+=tiles;state.history.push(t.id);if(state.lastDay!==day){const yesterday=new Date(Date.now()-864e5).toISOString().slice(0,10);state.streak=state.lastDay===yesterday?state.streak+1:1;state.lastDay=day}toast(`+${t.xp} XP · ${tiles} tiles revealed!`)}render()};
+    $('#undoBtn').onclick=()=>{let t;while(state.history.length&&!t){const id=state.history[state.history.length-1];t=state.tasks.find(x=>x.id==id&&x.done);if(!t)state.history.pop()}if(t){reverseTask(t);toast(`${t.name} undone`);render()}};
+    $('#resetTodayBtn').onclick=()=>{if(!confirm('Reset today and cover the current artwork again? Finished gallery pieces will stay safe.'))return;state.tasks.filter(t=>t.done).forEach(reverseTask);state.art.revealed=0;state.history=[];if(state.lastDay===day){state.streak=Math.max(0,state.streak-1);state.lastDay=state.streak?new Date(Date.now()-864e5).toISOString().slice(0,10):''}toast('Today and the current artwork were reset');render()};
+    $('#taskForm').onsubmit=e=>{e.preventDefault();state.tasks.push({id:Date.now(),name:$('#taskInput').value.trim(),xp:+$('#xpInput').value,done:false});e.target.reset();$('#xpInput').value=15;render()};
+    document.querySelector('.quick-list').onclick=e=>{const b=e.target.closest('[data-name]');if(!b)return;state.tasks.push({id:Date.now(),name:b.dataset.name,xp:+b.dataset.xp,done:false});toast(`${b.dataset.name} added`);render()};
+    $('#rewardForm').onsubmit=e=>{e.preventDefault();state.rewards.push({id:Date.now(),name:$('#rewardInput').value.trim(),cost:+$('#costInput').value});e.target.reset();$('#costInput').value=100;render()};
+    $('#rewardList').onclick=e=>{const b=e.target.closest('[data-reward]');if(!b)return;const r=state.rewards.find(x=>x.id==b.dataset.reward);if(state.xp>=r.cost){state.xp-=r.cost;toast(`Enjoy your ${r.name} — you earned it.`);render()}};
+    $('#nextArt').onclick=()=>{const art=artworks[state.art.level%artworks.length],total=40+state.art.level*8;if(state.art.revealed<total)return;state.art.gallery.push({title:art.title,artist:art.artist});state.art.level++;state.art.revealed=0;toast('A new mystery is waiting');render()};
+    render();
+  </script>
+</body>
+</html>
